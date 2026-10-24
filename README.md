@@ -1,10 +1,10 @@
 # peer-test
 
-**Evidence-driven peer testing for Codex.**
+**Evidence-driven peer testing for Codex and Claude Code.**
 
 `peer-test` turns Jira Peer Testing instructions and the relevant code changes into an ordered test plan, local evidence, and a concise report. It combines browser checks, declarative API assertions, and optional MAUI iOS simulator automation while keeping application settings and credentials in the application workspace.
 
-The repository includes the skill, reusable PowerShell and Python helpers, synthetic configuration examples, and report templates. Ticket-specific investigation and browser interaction run through Codex; the helpers can also be used directly for API replay and local validation.
+The repository includes the skill, reusable PowerShell and Python helpers, synthetic configuration examples, and report templates. Ticket-specific investigation and browser interaction run through the host agent (Codex or Claude Code); the helpers can also be used directly for API replay and local validation.
 
 ## Features
 
@@ -47,8 +47,8 @@ Jira comments, attachments, commits, pushes, and other external records require 
 
 | Component | Needed for |
 |---|---|
-| Codex with skill support and browser tools | Ticket investigation, planning, browser checks, and reporting |
-| Atlassian MCP connection with access to the selected project | Jira ticket access; an authorized browser session can serve as a fallback |
+| Codex or Claude Code with skill support and browser tools | Ticket investigation, planning, browser checks, and reporting |
+| Atlassian MCP connection with access to the selected project | Jira ticket access; an authorized browser session can serve as a fallback. Authenticate with `codex mcp login atlassian` in Codex or `/mcp` in Claude Code |
 | PowerShell 7.4 or later (`pwsh`) | The documented PowerShell commands and helper checks |
 | Python 3.9 or later | The standard-library-only Appium and MAUI helpers and tests |
 | Git | MAUI source fingerprints and source archive verification |
@@ -60,26 +60,37 @@ Native iOS testing additionally requires a Mac with compatible Xcode, an iOS sim
 
 ## Installation
 
-Clone or download this repository, then copy the skill and its supporting files into your local skill directory. From the repository root in PowerShell:
+Clone or download this repository, then copy the skill and its supporting files into the skill directory of each agent you use. From the repository root in PowerShell:
 
 ```powershell
-$destination = Join-Path $env:USERPROFILE '.agents/skills/peer-test'
-New-Item -ItemType Directory -Path $destination -Force | Out-Null
-Copy-Item -Path SKILL.md, README.md, LICENSE, scripts, examples, plans, references, templates `
-    -Destination $destination -Recurse -Force
+# Codex: ~/.agents/skills/peer-test   Claude Code: ~/.claude/skills/peer-test
+$destinations = @('.agents', '.claude') | ForEach-Object { Join-Path $env:USERPROFILE "$_/skills/peer-test" }
+foreach ($destination in $destinations) {
+    New-Item -ItemType Directory -Path $destination -Force | Out-Null
+    Copy-Item -Path SKILL.md, README.md, LICENSE, scripts, examples, plans, references, templates `
+        -Destination $destination -Recurse -Force
+}
 ```
+
+Drop either entry when you only use one agent. Claude Code also loads project skills from `<application-workspace>/.claude/skills/peer-test`; keep such a copy out of the application's source control unless the team shares it deliberately. Claude Code detects added or edited skills during a running session; if the skill does not appear, run `/reload-skills` or start a new session.
 
 This copies the skill files without Git metadata. Repeating it overwrites matching installed files; review any local customizations first. Application settings and ticket evidence belong in the application workspace, independently of the installed skill location.
 
 ## Usage
 
-In Codex, select the application workspace and invoke:
+Open the application workspace and invoke the skill. In Codex:
 
 ```text
 Use $peer-test to test APP-1234.
 ```
 
-Replace the example key with the actual Jira ticket. Include the environment or account role when overriding the application's defaults.
+In Claude Code, use the slash command or name the skill in a request:
+
+```text
+/peer-test APP-1234
+```
+
+Replace the example key with the actual Jira ticket. Include the environment or account role when overriding the application's defaults. The example prompts below use the Codex form; in Claude Code, replace `Use $peer-test to` with `/peer-test` or `Use the peer-test skill to`. Include the environment or account role when overriding the application's defaults.
 
 ### Example requests
 
@@ -94,7 +105,7 @@ Replace the example key with the actual Jira ticket. Include the environment or 
 
 Replace the ticket, role, and environment with values from the selected application workspace. For replay, identify the saved plan and response directory when they are not clear from the ticket history.
 
-Codex chooses test layers from your request, the ticket, changed code, and application guidance. An iOS profile supplies native execution settings; its presence does not select iOS automatically. The `browser` setting chooses the browser for web checks. State the platform explicitly when the ticket could apply to more than one, and clarify conflicting requirements before execution.
+The agent chooses test layers from your request, the ticket, changed code, and application guidance. An iOS profile supplies native execution settings; its presence does not select iOS automatically. The `browser` setting chooses the browser for web checks. State the platform explicitly when the ticket could apply to more than one, and clarify conflicting requirements before execution.
 
 ### First-run setup
 
@@ -120,7 +131,7 @@ Each application owns its configuration under:
 
 The `peer-review` directory name is the existing workspace storage convention; the installed skill is named `peer-test`.
 
-Start with [settings.example.json](examples/settings.example.json). Keep its structure, supply only the environment and roles you need, and use the application's `AGENTS.md` for startup instructions and the desired final state. Settings include local passwords in plaintext; protect the file with appropriate filesystem access and keep it out of source control.
+Start with [settings.example.json](examples/settings.example.json). Keep its structure, supply only the environment and roles you need, and use the application's `AGENTS.md` or `CLAUDE.md` for startup instructions and the desired final state. Settings include local passwords in plaintext; protect the file with appropriate filesystem access and keep it out of source control.
 
 Optional fragments are provided for [SQL fixtures](examples/fixture.example.json), [iOS sessions](examples/ios.example.json), [MAUI metadata](examples/maui.example.json), and a [shared Mac profile](examples/maui-machine.example.json). Merge relevant fragments into the application settings; they do not replace the main configuration.
 
@@ -189,7 +200,7 @@ The repository ships synthetic examples and empty account fields. It does not in
 ## Development
 
 ```text
-SKILL.md       Codex workflow and routing instructions
+SKILL.md       agent workflow and routing instructions (Codex and Claude Code)
 scripts/       runners, configuration helpers, and local checks
 examples/      synthetic configuration fragments
 plans/         synthetic API plan format

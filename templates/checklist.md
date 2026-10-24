@@ -9,7 +9,7 @@ Application / authorized environment / test scope: <nonsecret values>
 Source revision / runtime confirmation: <value>
 Plan: <required> required + <additional> additional = <total> distinct tests
 Scope decision: <automatic: <=5 additions, or user's explicit selection>
-Desired final state: <from the target application's AGENTS.md and workspace's .agents/skills/peer-review/hints.local.md>
+Desired final state: <from the target application's AGENTS.md/CLAUDE.md and workspace's .agents/skills/peer-review/hints.local.md>
 
 ## Additional tests proposed
 

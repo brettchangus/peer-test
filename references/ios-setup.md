@@ -48,7 +48,7 @@ Verify the Mac's host key before accepting a new key. Do not disable host-key ch
 
 ## Application build and install
 
-Read the Mac checkout's AGENTS.md. Build/test authorization must follow the current user request and repository guidance. Confirm source parity with the reviewed changes, including uncommitted files; matching commits alone is insufficient. Do not overwrite Mac working changes or copy credentials. Run from the Mac's selected application checkout:
+Read the Mac checkout's AGENTS.md and/or CLAUDE.md. Build/test authorization must follow the current user request and repository guidance. Confirm source parity with the reviewed changes, including uncommitted files; matching commits alone is insufficient. Do not overwrite Mac working changes or copy credentials. Run from the Mac's selected application checkout:
 
 ```sh
 # Apple Silicon; Intel Macs use iossimulator-x64 instead.
