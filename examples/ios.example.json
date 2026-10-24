@@ -1,0 +1,16 @@
+{
+  "machineProfilePath": "",
+  "platform": "ios-simulator",
+  "serverUrl": "http://127.0.0.1:4723",
+  "udid": "",
+  "bundleId": "",
+  "macHost": "",
+  "macUser": "",
+  "sshKeyPath": "",
+  "dotnetPath": "",
+  "macWorkspace": "",
+  "appPath": "",
+  "backendOrigin": "",
+  "selectors": {},
+  "flows": {}
+}

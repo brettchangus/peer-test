@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "configured": false,
+  "environments": {
+    "local": {
+      "accounts": {
+        "administrator": {
+          "email": "",
+          "password": ""
+        },
+        "standardUser": {
+          "email": "",
+          "password": ""
+        }
+      },
+      "baseUrl": "",
+      "scopeId": null,
+      "disposableScope": false
+    }
+  },
+  "fixture": null,
+  "browser": "iab"
+}

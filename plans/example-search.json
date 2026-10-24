@@ -1,0 +1,18 @@
+{
+  "ticket": "EXAMPLE",
+  "baseUrl": "https://localhost:44301",
+  "replayOnly": true,
+  "state": "Synthetic format example: replace with independently verified ticket data outside the skill",
+  "cases": [
+    {
+      "id": "sample-record",
+      "endpoint": "/api/records/search",
+      "payload": {"query": "Example record"},
+      "replayFile": "sample-response.json",
+      "assertions": [
+        {"type": "MinCount", "path": "Data.List", "expected": 1},
+        {"type": "Equals", "path": "Data.List", "whereProperty": "RecordId", "whereEquals": 7, "property": "Description", "expected": "Example value"}
+      ]
+    }
+  ]
+}

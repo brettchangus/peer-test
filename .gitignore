@@ -1,0 +1,45 @@
+# Python runtime and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local configuration, credentials and private guidance
+.env
+.env.*
+!.env.example
+*.local.json
+hints.local.md
+.private/
+*.pem
+*.key
+*.pfx
+*.p12
+id_rsa*
+id_ed25519*
+
+# Ticket data, review artifacts, logs and generated evidence
+.history/
+.reviews/
+app_data/
+artifacts/
+evidence/
+results/
+test-output/
+*.log
+*.har
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+*.tar.gz
+
+# Editor and operating system files
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

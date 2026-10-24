@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "expectedServer": "(LocalDB)\\TestInstance",
+  "tables": [
+    {
+      "idColumn": "RecordId",
+      "name": "Records",
+      "scopeIsId": false,
+      "columns": [
+        "Status",
+        "Description"
+      ],
+      "scopeColumn": "ScopeId"
+    }
+  ],
+  "connectionName": "ApplicationDatabase",
+  "expectedDatabase": "Application.Test",
+  "webConfigPath": "C:\\path\\to\\application\\Web.config"
+}

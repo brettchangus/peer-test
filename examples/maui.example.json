@@ -1,0 +1,10 @@
+{
+  "projectPath": "",
+  "targetFramework": "",
+  "runtimeIdentifier": "iossimulator-arm64",
+  "build": {
+    "configuration": "Debug",
+    "toolchainIdentity": "",
+    "endpointOverlay": null
+  }
+}
